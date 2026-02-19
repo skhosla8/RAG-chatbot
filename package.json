@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run seed && next build",
     "start": "next start",
     "lint": "eslint",
     "seed": "ts-node ./scripts/loadDb.ts"
@@ -16,13 +16,12 @@
     "@datastax/astra-db-ts": "^2.1.2",
     "@langchain/community": "^1.1.10",
     "@langchain/core": "^1.1.18",
-    "@sparticuz/chromium-min": "^143.0.4",
     "ai": "^6.0.77",
     "dotenv": "^16.4.5",
     "langchain": "^0.1.36",
     "next": "16.1.6",
     "openai": "^4.41.0",
-    "puppeteer-core": "^24.37.4",
+    "puppeteer": "^24.37.4",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-loader-spinner": "^8.0.2",
