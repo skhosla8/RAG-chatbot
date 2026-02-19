@@ -1,0 +1,67 @@
+.shared {
+    position: relative;
+    /* Setup a relative container for our psuedo elements */
+    max-width: 455px;
+    margin-bottom: 15px;
+    padding: 10px 20px;
+    line-height: 24px;
+    word-wrap: break-word;
+    /* Make sure the text wraps to multiple lines if long */
+    border-radius: 30px;
+
+    &:before {
+        width: 20px;
+    }
+
+    &:after {
+        width: 26px;
+        background-color: transparent;
+    }
+
+    &:before,
+    &:after {
+        position: absolute;
+        bottom: -5px;
+        height: 30px;
+        /* height of our bubble "tail" - should match the border-radius above */
+        content: '';
+    }
+}
+
+.sent {
+    align-self: flex-end;
+    color: black;
+    background: oklch(95.4% 0.038 75.164);
+
+    &:before {
+        right: 0;
+        background-color: oklch(95.4% 0.038 75.164);
+
+        border-bottom-left-radius: 16px 14px;
+    }
+
+    &:after {
+        position: absolute;
+        right: -26px;
+        border-bottom-left-radius: 10px;
+        background-color: oklch(70.8% 0 0 / 0);
+    }
+}
+
+.received {
+    align-self: flex-start;
+    color: black;
+    background: #fff;
+
+    &:before {
+        left: 0;
+        background-color: #fff;
+        border-bottom-right-radius: 16px 14px;
+    }
+
+    &:after {
+        left: -26px;
+        border-bottom-right-radius: 10px;
+        background-color: oklch(70.8% 0 0 / 0);
+    }
+}

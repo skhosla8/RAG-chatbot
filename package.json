@@ -6,12 +6,27 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed": "ts-node ./scripts/loadDb.ts"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^3.0.26",
+    "@ai-sdk/react": "^3.0.79",
+    "@ai-sdk/rsc": "^2.0.78",
+    "@datastax/astra-db-ts": "^2.1.2",
+    "@langchain/community": "^1.1.10",
+    "@langchain/core": "^1.1.18",
+    "ai": "^6.0.77",
+    "dotenv": "^16.4.5",
+    "langchain": "^0.1.36",
     "next": "16.1.6",
+    "openai": "^4.41.0",
+    "puppeteer": "^24.36.1",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "react-loader-spinner": "^8.0.2",
+    "tailwind-scrollbar-hide": "^4.0.0",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
