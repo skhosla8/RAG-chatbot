@@ -1,12 +1,13 @@
 
-"use server";
-
 import OpenAI from "openai";
 import { openai } from "@ai-sdk/openai";
 import { streamText, convertToModelMessages } from 'ai';
 import { DataAPIClient } from "@datastax/astra-db-ts";
 import { NextResponse } from 'next/server';
 import { unstable_noStore as noStore } from 'next/cache';
+
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 noStore();
 
