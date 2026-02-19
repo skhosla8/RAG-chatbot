@@ -3,11 +3,12 @@
 
 import OpenAI from "openai";
 import { openai } from "@ai-sdk/openai";
-//import { saveChat } from '@util/chat-store';
-import { streamText, generateText, convertToModelMessages } from 'ai';
+import { streamText, convertToModelMessages } from 'ai';
 import { DataAPIClient } from "@datastax/astra-db-ts";
 import { NextResponse } from 'next/server';
-import { metadata } from "@/app/layout";
+import { unstable_noStore as noStore } from 'next/cache';
+
+noStore();
 
 const {
     ASTRA_DB_NAMESPACE,
@@ -26,7 +27,7 @@ const db = client.db(ASTRA_DB_API_ENDPOINT, { keyspace: ASTRA_DB_NAMESPACE });
 
 export async function POST(req: Request) {
     try {
-        const { messages, chatId }: { messages: any[]; chatId: string } = await req.json();
+        const { messages }: { messages: any[] } = await req.json();
 
         const latestMessage = messages[messages?.length - 1]?.parts[0]?.text;
 
