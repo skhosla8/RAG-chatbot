@@ -69,6 +69,10 @@ export async function POST(req: Request) {
         });
 
         return response.toUIMessageStreamResponse({
+            headers: {
+                'Transfer-Encoding': 'chunked',
+                Connection: 'keep-alive',
+            },
             messageMetadata(options) {
                 return {
                     createdAt: new Date().toLocaleTimeString()
