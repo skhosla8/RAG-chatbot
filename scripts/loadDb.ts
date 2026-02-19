@@ -6,6 +6,8 @@ import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 
 import 'dotenv/config';
 
+export const dynamic = 'force-dynamic';
+
 type SimilarityMetric = "dot_product" | "cosine" | "euclidean";
 
 const {
