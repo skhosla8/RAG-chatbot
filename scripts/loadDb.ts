@@ -1,6 +1,7 @@
 import { DataAPIClient } from '@datastax/astra-db-ts';
 import { PuppeteerWebBaseLoader } from '@langchain/community/document_loaders/web/puppeteer';
 import * as puppeteer from 'puppeteer';
+import puppeteerCore from 'puppeteer-core';
 import chromium from '@sparticuz/chromium-min';
 import OpenAI from 'openai';
 
@@ -18,7 +19,8 @@ const {
     ASTRA_DB_API_ENDPOINT,
     ASTRA_DB_APPLICATION_TOKEN,
     OPENAI_API_KEY,
-    NODE_ENV
+    NODE_ENV,
+    CHROMIUM_REMOTE_EXEC_PATH
 } = process.env;
 
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
@@ -81,10 +83,10 @@ const scrapePage = async (url: string) => {
         // Use specific configuration for Vercel production environment
         if (NODE_ENV === 'production') {
             // Configure puppeteer-core to use the @sparticuz/chromium-min executable
-            browser = await puppeteer.launch({
+            browser = await puppeteerCore.launch({
                 args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
                 defaultViewport: { width: 1280, height: 800 },
-                executablePath: await chromium.executablePath(),
+                executablePath: await chromium.executablePath(CHROMIUM_REMOTE_EXEC_PATH),
                 headless: true
             });
         } else {
