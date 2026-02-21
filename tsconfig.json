@@ -28,12 +28,15 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    "node_modules"
   ],
   "ts-node": {
     "compilerOptions": {
       "module": "commonjs"
     }
   },
+  /*
   "exclude": ["node_modules"]
+  */
 }
