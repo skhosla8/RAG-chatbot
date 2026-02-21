@@ -86,7 +86,7 @@ const scrapePage = async (url: string) => {
             browser = await puppeteerCore.launch({
                 args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
                 defaultViewport: { width: 1280, height: 800 },
-                executablePath: await chromium.executablePath(CHROMIUM_REMOTE_EXEC_PATH),
+                executablePath: await chromium.executablePath(`${CHROMIUM_REMOTE_EXEC_PATH}`),
                 headless: true
             });
         } else {
