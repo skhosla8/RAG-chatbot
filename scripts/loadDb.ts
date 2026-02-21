@@ -1,5 +1,8 @@
 import { DataAPIClient } from '@datastax/astra-db-ts';
 import { PuppeteerWebBaseLoader } from '@langchain/community/document_loaders/web/puppeteer';
+import * as puppeteer from 'puppeteer';
+import chromium from '@sparticuz/chromium-min';
+import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
@@ -34,6 +37,7 @@ const splitter = new RecursiveCharacterTextSplitter({
     chunkSize: 512,
     chunkOverlap: 100
 });
+
 
 const createCollection = async (similarityMetric: SimilarityMetric = "dot_product") => {
     const res = await db.createCollection(ASTRA_DB_COLLECTION, {
@@ -71,22 +75,48 @@ const loadSampleData = async () => {
 };
 
 const scrapePage = async (url: string) => {
-    const loader = new PuppeteerWebBaseLoader(url, {
-        launchOptions: {
-            headless: true
-        },
-        gotoOptions: {
-            waitUntil: "domcontentloaded"
-        },
-        evaluate: async (page, browser) => {
-            const result = await page.evaluate(() => document.body.innerHTML);
+    try {
+        let browser;
 
-            await browser.close();
-            return result;
+        // Use specific configuration for Vercel production environment
+        if (process.env.NODE_ENV === 'production') {
+            // Configure puppeteer-core to use the @sparticuz/chromium-min executable
+            browser = await puppeteer.launch({
+                args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+                defaultViewport: { width: 1280, height: 800 },
+                executablePath: await chromium.executablePath,
+                headless: true,
+                ignoreHTTPSErrors: true,
+            });
+        } else {
+            // Use the standard puppeteer package for local development
+            browser = await puppeteer.launch({
+                headless: true,
+            });
         }
-    });
 
-    return (await loader.scrape())?.replace(/<[^>]*>?/gm, '');
+        const loader = new PuppeteerWebBaseLoader(url, {
+            launchOptions: {
+                headless: true,
+                browser: browser
+            },
+            gotoOptions: {
+                waitUntil: "domcontentloaded"
+            },
+            evaluate: async (page, browser) => {
+                const result = await page.evaluate(() => document.body.innerHTML);
+
+                await browser.close();
+                return result;
+            }
+        });
+
+        return (await loader.scrape())?.replace(/<[^>]*>?/gm, '');
+
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
 };
 
 createCollection().then(() => loadSampleData());
