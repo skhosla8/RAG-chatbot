@@ -1,8 +1,11 @@
 import { DataAPIClient } from '@datastax/astra-db-ts';
-import { PuppeteerWebBaseLoader } from '@langchain/community/document_loaders/web/puppeteer';
+//import { PuppeteerWebBaseLoader } from '@langchain/community/document_loaders/web/puppeteer';
+import { PlaywrightWebBaseLoader } from "@langchain/community/document_loaders/web/playwright";
 import * as puppeteer from 'puppeteer';
 import puppeteerCore from 'puppeteer-core';
-import chromium from '@sparticuz/chromium';
+//import chromium from '@sparticuz/chromium';
+import { chromium } from 'playwright';
+
 import OpenAI from 'openai';
 
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
@@ -25,7 +28,7 @@ const {
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
 const mahjongData = [
-    "https://www.plainfieldlibrary.net/wp-content/uploads/2020/03/American-Mahjongg.pdf",
+    //"https://www.plainfieldlibrary.net/wp-content/uploads/2020/03/American-Mahjongg.pdf",
     "https://en.wikipedia.org/wiki/Mahjong#History",
     "https://www.google.com/search?q=mahjong+2025&sca_esv=af25f58d0793347a&biw=1728&bih=888&aic=0&sxsrf=ANbL-n6HUseYKXEdStNIg4sgFOnohXexBA%3A1769989063627&ei=x-N_acuGJvrJkPIP-8qSiQU&ved=0ahUKEwiLhpOLu7mSAxX6JEQIHXulJFE4ChDh1QMIEw&uact=5&oq=mahjong+2025&gs_lp=Egxnd3Mtd2l6LXNlcnAiDG1haGpvbmcgMjAyNTIFEAAYgAQyBRAAGIAEMgUQABiABDIKEAAYgAQYFBiHAjIFEAAYgAQyBRAAGIAEMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQABiABEjiBVCRA1jyBHABeAGQAQCYAWugAbkBqgEDMS4xuAEDyAEA-AEBmAIDoALCAcICDRAjGPAFGLADGCcYngbCAgcQIxiwAxgnwgIKEAAYsAMY1gQYR8ICChAjGIAEGCcYigXCAgoQIxjwBRgnGJ4GwgIEECMYJ8ICChAAGIAEGEMYigXCAgsQABiABBiRAhiKBZgDAIgGAZAGCpIHAzIuMaAHnxGyBwMxLjG4B74BwgcDMC4zyAcGgAgA&sclient=gws-wiz-serp",
     "https://www.scribd.com/document/250898340/Mahjong-Hands-Lisit"
@@ -56,12 +59,13 @@ const loadSampleData = async () => {
 
     for await (const url of mahjongData) {
         const content = await scrapePage(url);
-        const chunks = typeof content === 'string' ? await splitter.splitText(content) : [];
+        //const chunks = typeof content === 'string' ? await splitter.splitText(content) : [];
+            const chunks = await splitter.splitDocuments(content);
 
         for await (const chunk of chunks) {
             const embedding = await openai.embeddings.create({
                 model: "text-embedding-3-small",
-                input: chunk,
+                input: chunk.pageContent,
                 encoding_format: "float"
             });
 
@@ -76,17 +80,17 @@ const loadSampleData = async () => {
 };
 
 const scrapePage = async (url: string) => {
-    try {
+   /* try {
         let browser;
 
         // Use specific configuration for Vercel production environment
         if (NODE_ENV === 'production') {
             // Configure puppeteer-core to use the @sparticuz/chromium-min executable
-            browser = await puppeteerCore.launch({
+            browser = await chromium.launch({
                 args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
-                defaultViewport: { width: 1280, height: 800 },
+                //defaultViewport: { width: 1280, height: 800 },
                 executablePath: await chromium.executablePath(),
-                headless: true
+                headless: true,
             });
         } else {
             // Use the standard puppeteer package for local development
@@ -95,7 +99,7 @@ const scrapePage = async (url: string) => {
             });
         }
 
-        const loader = new PuppeteerWebBaseLoader(url, {
+        const loader = new PlaywrightWebBaseLoader(url, {
             launchOptions: {
                 headless: true,
                 browser: browser
@@ -118,6 +122,30 @@ const scrapePage = async (url: string) => {
         console.error(error);
         return error;
     }
+        */ 
+     let webBrowser = await chromium.launch({ headless: true });
+     let webPage = await webBrowser.newPage();
+
+     const loader = new PlaywrightWebBaseLoader(url, {
+            launchOptions: {
+                headless: true,
+            },
+            gotoOptions: {
+                waitUntil: "domcontentloaded"
+            },
+            evaluate: async (page = webPage, browser = webBrowser) => {
+                //await page.waitForResponse(url);
+
+                const result = await page.evaluate(() => document.body.innerHTML);
+
+                await browser.close();
+                return result;
+            }
+        });
+
+        const result = await loader.load();
+       // return result?.replace(/<[^>]*>?/gm, '');
+       return result;
 };
 
 createCollection().then(() => loadSampleData());
