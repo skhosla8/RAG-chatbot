@@ -2,7 +2,7 @@ import { DataAPIClient } from '@datastax/astra-db-ts';
 import { PuppeteerWebBaseLoader } from '@langchain/community/document_loaders/web/puppeteer';
 import * as puppeteer from 'puppeteer';
 import puppeteerCore from 'puppeteer-core';
-import chromium from '@sparticuz/chromium-min';
+import chromium from '@sparticuz/chromium';
 import OpenAI from 'openai';
 
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
@@ -20,7 +20,6 @@ const {
     ASTRA_DB_APPLICATION_TOKEN,
     OPENAI_API_KEY,
     NODE_ENV,
-    CHROMIUM_REMOTE_EXEC_PATH
 } = process.env;
 
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
@@ -57,7 +56,7 @@ const loadSampleData = async () => {
 
     for await (const url of mahjongData) {
         const content = await scrapePage(url);
-        const chunks = await splitter.splitText(content);
+        const chunks = typeof content === 'string' ? await splitter.splitText(content) : [];
 
         for await (const chunk of chunks) {
             const embedding = await openai.embeddings.create({
@@ -86,7 +85,7 @@ const scrapePage = async (url: string) => {
             browser = await puppeteerCore.launch({
                 args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
                 defaultViewport: { width: 1280, height: 800 },
-                executablePath: await chromium.executablePath(`${CHROMIUM_REMOTE_EXEC_PATH}`),
+                executablePath: await chromium.executablePath(),
                 headless: true
             });
         } else {
