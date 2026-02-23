@@ -111,7 +111,8 @@ const scrapePage = async (url: string) => {
             }
         });
 
-        return (await loader.scrape())?.replace(/<[^>]*>?/gm, '');
+        const result = await loader.scrape();
+        return JSON.stringify(result?.replace(/<[^>]*>?/gm, ''));
 
     } catch (error) {
         console.error(error);
