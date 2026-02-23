@@ -23,7 +23,7 @@
     "langchain": "^0.1.36",
     "next": "16.1.6",
     "openai": "^4.41.0",
-    "playwright": "^1.58.2",
+    "playwright-core": "^1.58.2",
     "puppeteer": "^24.37.5",
     "puppeteer-core": "^24.37.5",
     "react": "19.2.3",

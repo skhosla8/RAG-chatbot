@@ -2,9 +2,10 @@ import { DataAPIClient } from '@datastax/astra-db-ts';
 //import { PuppeteerWebBaseLoader } from '@langchain/community/document_loaders/web/puppeteer';
 import { PlaywrightWebBaseLoader } from "@langchain/community/document_loaders/web/playwright";
 import * as puppeteer from 'puppeteer';
-import puppeteerCore from 'puppeteer-core';
-//import chromium from '@sparticuz/chromium';
-import { chromium } from 'playwright';
+import puppeteerCore, { executablePath } from 'puppeteer-core';
+import chromiumPack from '@sparticuz/chromium';
+import { chromium as pwChromium } from 'playwright-core';
+import path from 'path';
 
 import OpenAI from 'openai';
 
@@ -60,7 +61,7 @@ const loadSampleData = async () => {
     for await (const url of mahjongData) {
         const content = await scrapePage(url);
         //const chunks = typeof content === 'string' ? await splitter.splitText(content) : [];
-            const chunks = await splitter.splitDocuments(content);
+        const chunks = await splitter.splitDocuments(content);
 
         for await (const chunk of chunks) {
             const embedding = await openai.embeddings.create({
@@ -80,72 +81,83 @@ const loadSampleData = async () => {
 };
 
 const scrapePage = async (url: string) => {
-   /* try {
-        let browser;
+    /* try {
+         let browser;
+ 
+         // Use specific configuration for Vercel production environment
+         if (NODE_ENV === 'production') {
+             // Configure puppeteer-core to use the @sparticuz/chromium-min executable
+             browser = await chromium.launch({
+                 args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+                 //defaultViewport: { width: 1280, height: 800 },
+                 executablePath: await chromium.executablePath(),
+                 headless: true,
+             });
+         } else {
+             // Use the standard puppeteer package for local development
+             browser = await puppeteer.launch({
+                 headless: true,
+             });
+         }
+ 
+         const loader = new PlaywrightWebBaseLoader(url, {
+             launchOptions: {
+                 headless: true,
+                 browser: browser
+             },
+             gotoOptions: {
+                 waitUntil: "domcontentloaded"
+             },
+             evaluate: async (page, browser) => {
+                 const result = await page.evaluate(() => document.body.innerHTML);
+ 
+                 await browser.close();
+                 return result;
+             }
+         });
+ 
+         const result = await loader.scrape();
+         return JSON.stringify(result?.replace(/<[^>]*>?/gm, ''));
+ 
+     } catch (error) {
+         console.error(error);
+         return error;
+     }
+         */
 
-        // Use specific configuration for Vercel production environment
-        if (NODE_ENV === 'production') {
-            // Configure puppeteer-core to use the @sparticuz/chromium-min executable
-            browser = await chromium.launch({
-                args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
-                //defaultViewport: { width: 1280, height: 800 },
-                executablePath: await chromium.executablePath(),
-                headless: true,
-            });
-        } else {
-            // Use the standard puppeteer package for local development
-            browser = await puppeteer.launch({
-                headless: true,
-            });
+    const executablePath = await chromiumPack.executablePath();
+    const execDir = path.dirname(executablePath);
+
+    process.env.LD_LIBRARY_PATH = execDir;
+
+    let webBrowser = await pwChromium.launch({
+        args: chromiumPack.args,
+        headless: true,
+        executablePath: executablePath
+    });
+
+    let webPage = await webBrowser.newPage();
+
+    const loader = new PlaywrightWebBaseLoader(url, {
+        launchOptions: {
+            headless: true,
+        },
+        gotoOptions: {
+            waitUntil: "domcontentloaded"
+        },
+        evaluate: async (page = webPage, browser = webBrowser) => {
+            //await page.waitForResponse(url);
+
+            const result = await page.evaluate(() => document.body.innerHTML);
+
+            await browser.close();
+            return result;
         }
+    });
 
-        const loader = new PlaywrightWebBaseLoader(url, {
-            launchOptions: {
-                headless: true,
-                browser: browser
-            },
-            gotoOptions: {
-                waitUntil: "domcontentloaded"
-            },
-            evaluate: async (page, browser) => {
-                const result = await page.evaluate(() => document.body.innerHTML);
-
-                await browser.close();
-                return result;
-            }
-        });
-
-        const result = await loader.scrape();
-        return JSON.stringify(result?.replace(/<[^>]*>?/gm, ''));
-
-    } catch (error) {
-        console.error(error);
-        return error;
-    }
-        */ 
-     let webBrowser = await chromium.launch({ headless: true });
-     let webPage = await webBrowser.newPage();
-
-     const loader = new PlaywrightWebBaseLoader(url, {
-            launchOptions: {
-                headless: true,
-            },
-            gotoOptions: {
-                waitUntil: "domcontentloaded"
-            },
-            evaluate: async (page = webPage, browser = webBrowser) => {
-                //await page.waitForResponse(url);
-
-                const result = await page.evaluate(() => document.body.innerHTML);
-
-                await browser.close();
-                return result;
-            }
-        });
-
-        const result = await loader.load();
-       // return result?.replace(/<[^>]*>?/gm, '');
-       return result;
+    const result = await loader.load();
+    // return result?.replace(/<[^>]*>?/gm, '');
+    return result;
 };
 
 createCollection().then(() => loadSampleData());
