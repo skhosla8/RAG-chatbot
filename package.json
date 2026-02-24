@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run seed && next build",
+    "build": "npm run seed && next build && npx playwright install --with-deps chromium",
     "start": "next start",
     "lint": "eslint",
     "seed": "ts-node ./scripts/loadDb.ts"
