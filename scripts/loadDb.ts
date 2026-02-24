@@ -43,7 +43,6 @@ const splitter = new RecursiveCharacterTextSplitter({
     chunkOverlap: 100
 });
 
-
 const createCollection = async (similarityMetric: SimilarityMetric = "dot_product") => {
     const res = await db.createCollection(ASTRA_DB_COLLECTION, {
         vector: {
@@ -57,6 +56,11 @@ const createCollection = async (similarityMetric: SimilarityMetric = "dot_produc
 
 const loadSampleData = async () => {
     const collection = db.collection(ASTRA_DB_COLLECTION);
+
+    const executablePath = await chromiumPack.executablePath();
+    const execDir = path.dirname(executablePath);
+
+    process.env.LD_LIBRARY_PATH = execDir;
 
     for await (const url of mahjongData) {
         const content = await scrapePage(url);
@@ -125,10 +129,10 @@ const scrapePage = async (url: string) => {
      }
          */
 
-    const executablePath = await chromiumPack.executablePath();
-    const execDir = path.dirname(executablePath);
+     const executablePath = await chromiumPack.executablePath();
+     const execDir = path.dirname(executablePath);
 
-    process.env.LD_LIBRARY_PATH = execDir;
+     process.env.LD_LIBRARY_PATH = execDir;
 
     let webBrowser = await pwChromium.launch({
         args: chromiumPack.args,
