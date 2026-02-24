@@ -23,7 +23,7 @@
     "dotenv": "^16.4.5",
     "langchain": "^0.1.36",
     "next": "16.1.6",
-    "node": "^25.6.1",
+    "node": "^24.0.0",
     "openai": "^4.41.0",
     "playwright-core": "^1.58.2",
     "puppeteer": "^24.37.5",
