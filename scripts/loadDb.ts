@@ -23,7 +23,7 @@ const {
     ASTRA_DB_API_ENDPOINT,
     ASTRA_DB_APPLICATION_TOKEN,
     OPENAI_API_KEY,
-    NODE_ENV,
+    /*NODE_ENV,*/
 } = process.env;
 
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
