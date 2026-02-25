@@ -58,11 +58,13 @@ const loadSampleData = async () => {
     const collection = db.collection(ASTRA_DB_COLLECTION);
 
     const executablePath = await chromiumPack.executablePath();
+    console.log(`executablePath`, executablePath)
     const execDir = path.dirname(executablePath);
+    console.log(`execDir`, execDir)
 
     process.env.LD_LIBRARY_PATH = execDir;
 
-    for await (const url of mahjongData) {
+   for await (const url of mahjongData) {
         const content = await scrapePage(url);
         //const chunks = typeof content === 'string' ? await splitter.splitText(content) : [];
         const chunks = await splitter.splitDocuments(content);
