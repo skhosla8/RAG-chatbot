@@ -23,6 +23,7 @@ const {
     ASTRA_DB_API_ENDPOINT,
     ASTRA_DB_APPLICATION_TOKEN,
     OPENAI_API_KEY,
+    LD_LIBRARY_PATH
     /*NODE_ENV,*/
 } = process.env;
 
@@ -62,7 +63,7 @@ const loadSampleData = async () => {
     const execDir = path.dirname(executablePath);
     console.log(`execDir`, execDir)
 
-    process.env.LD_LIBRARY_PATH = execDir;
+    //process.env.LD_LIBRARY_PATH = execDir;
 
    for await (const url of mahjongData) {
         const content = await scrapePage(url);
@@ -134,7 +135,7 @@ const scrapePage = async (url: string) => {
      const executablePath = await chromiumPack.executablePath();
      const execDir = path.dirname(executablePath);
 
-     process.env.LD_LIBRARY_PATH = execDir;
+     //process.env.LD_LIBRARY_PATH = execDir;
 
     let webBrowser = await pwChromium.launch({
         args: chromiumPack.args,
