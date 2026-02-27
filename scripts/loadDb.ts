@@ -2,7 +2,7 @@ import { DataAPIClient } from '@datastax/astra-db-ts';
 import { PuppeteerWebBaseLoader } from '@langchain/community/document_loaders/web/puppeteer';
 //import { PlaywrightWebBaseLoader } from "@langchain/community/document_loaders/web/playwright";
 import * as puppeteer from 'puppeteer';
-//import puppeteerCore from 'puppeteer-core';
+import puppeteerCore from 'puppeteer-core';
 import chromiumPack from '@sparticuz/chromium';
 //mport chromium from '@sparticuz/chromium-min'
 //import { chromium as pwChromium } from 'playwright-core';
@@ -95,34 +95,29 @@ const loadSampleData = async () => {
 };
 
 const scrapePage = async (url: string) => {
-    const executablePath = await chromiumPack.executablePath();
-    const execDir = path.dirname(executablePath);
+     const executablePath = await chromiumPack.executablePath();
+    //const execDir = path.dirname(executablePath);
 
-    process.env.LD_LIBRARY_PATH = execDir;
+    //process.env.LD_LIBRARY_PATH = execDir;
 
     try {
-        let browser;
+        let webBrowser;
 
         // Use specific configuration for Vercel production environment
         if (NODE_ENV === 'production') {
             // Configure puppeteer-core to use the @sparticuz/chromium-min executable
-            /*
-            browser = await puppeteer.launch({
+            
+            webBrowser = await puppeteerCore.launch({
                 args: [...chromiumPack.args, "--hide-scrollbars", "--disable-web-security"],
                 defaultViewport: { width: 1280, height: 800 },
                 executablePath: executablePath,
                 //executablePath: 'mahjong-chatbot/chromium',
                 headless: true,
             })
-            */
-           browser = await puppeteer.launch({
-            headless: true,
-            args: ["--no-sandbox"]
-           });
 
         } else {
             // Use the standard puppeteer package for local development
-            browser = await puppeteer.launch({
+            webBrowser = await puppeteer.launch({
                 headless: true,
             });
         }
@@ -135,7 +130,7 @@ const scrapePage = async (url: string) => {
             gotoOptions: {
                 waitUntil: "domcontentloaded"
             },
-            evaluate: async (page, browser) => {
+            evaluate: async (page, browser = webBrowser) => {
                 const result = await page.evaluate(() => document.body.innerHTML);
 
                 await browser.close();
