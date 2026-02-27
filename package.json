@@ -19,6 +19,7 @@
     "@langchain/textsplitters": "^1.0.1",
     "@sparticuz/chromium": "^143.0.4",
     "@sparticuz/chromium-min": "^143.0.4",
+    "@tailwindcss/postcss": "^4.2.1",
     "ai": "^6.0.77",
     "chrome-aws-lambda": "^10.1.0",
     "dotenv": "^16.4.5",
@@ -34,16 +35,15 @@
     "react-dom": "19.2.3",
     "react-loader-spinner": "^8.0.2",
     "tailwind-scrollbar-hide": "^4.0.0",
+    "tailwindcss": "^4.2.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.1.6",
-    "tailwindcss": "^4"
+    "eslint-config-next": "16.1.6"
   }
 }
