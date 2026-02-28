@@ -98,11 +98,11 @@ const loadSampleData = async () => {
 const scrapePage = async (url: string) => {
      //const executablePath = await chromiumPack.executablePath();
      const executablePath = await chromiumPack.executablePath('https://github.com/Sparticuz/chromium/releases/download/v143.0.4/chromium-v143.0.4-pack.x64.tar');
-     const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
+     //const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
 
     // console.log(execDir)
 
-    process.env.LD_LIBRARY_PATH = execDir;
+    //process.env.LD_LIBRARY_PATH = execDir;
 
     try {
         let webBrowser;
