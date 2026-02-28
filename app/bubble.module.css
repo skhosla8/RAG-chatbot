@@ -1,3 +1,5 @@
+@import "@tailwindcss/postcss";
+
 .shared {
     position: relative;
     /* Setup a relative container for our psuedo elements */

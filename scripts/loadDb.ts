@@ -68,7 +68,7 @@ const loadSampleData = async () => {
     const execDir = path.dirname(executablePath);
     console.log(`execDir`, execDir)
 
-    //process.env.LD_LIBRARY_PATH = execDir;
+    process.env.LD_LIBRARY_PATH = execDir;
     */
 
     for await (const url of mahjongData) {
