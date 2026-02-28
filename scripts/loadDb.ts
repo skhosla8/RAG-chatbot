@@ -27,8 +27,9 @@ const {
     ASTRA_DB_API_ENDPOINT,
     ASTRA_DB_APPLICATION_TOKEN,
     OPENAI_API_KEY,
-    /*LD_LIBRARY_PATH*/
-    NODE_ENV,
+    LD_LIBRARY_PATH,
+    NEXT_PUBLIC_VERCEL_ENV,
+    /*NODE_ENV,*/
 } = process.env;
 
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
@@ -96,15 +97,17 @@ const loadSampleData = async () => {
 
 const scrapePage = async (url: string) => {
      const executablePath = await chromiumPack.executablePath();
-    //const execDir = path.dirname(executablePath);
+     const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
 
-    //process.env.LD_LIBRARY_PATH = execDir;
+    // console.log(execDir)
+
+    process.env.LD_LIBRARY_PATH = execDir;
 
     try {
         let webBrowser;
 
         // Use specific configuration for Vercel production environment
-        if (NODE_ENV === 'production') {
+        if (NEXT_PUBLIC_VERCEL_ENV === 'production') {
             // Configure puppeteer-core to use the @sparticuz/chromium-min executable
             
             webBrowser = await puppeteerCore.launch({
