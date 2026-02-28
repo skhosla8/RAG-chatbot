@@ -3,8 +3,8 @@ import { PuppeteerWebBaseLoader } from '@langchain/community/document_loaders/we
 //import { PlaywrightWebBaseLoader } from "@langchain/community/document_loaders/web/playwright";
 import * as puppeteer from 'puppeteer';
 import puppeteerCore from 'puppeteer-core';
-import chromiumPack from '@sparticuz/chromium';
-//mport chromium from '@sparticuz/chromium-min'
+//import chromiumPack from '@sparticuz/chromium';
+import chromium from '@sparticuz/chromium-min';
 //import { chromium as pwChromium } from 'playwright-core';
 import path from 'path';
 
@@ -96,8 +96,8 @@ const loadSampleData = async () => {
 };
 
 const scrapePage = async (url: string) => {
-     //const executablePath = await chromiumPack.executablePath();
-     const executablePath = await chromiumPack.executablePath('https://github.com/Sparticuz/chromium/releases/download/v143.0.4/chromium-v143.0.4-pack.x64.tar');
+     const executablePath = await chromium.executablePath('/opt/chromium');
+     //const executablePath = await chromiumPack.executablePath('https://github.com/Sparticuz/chromium/releases/download/v143.0.4/chromium-v143.0.4-pack.x64.tar');
      //const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
 
     // console.log(execDir)
@@ -112,7 +112,7 @@ const scrapePage = async (url: string) => {
             // Configure puppeteer-core to use the @sparticuz/chromium-min executable
             
             webBrowser = await puppeteerCore.launch({
-                args: [...chromiumPack.args, "--hide-scrollbars", "--disable-web-security"],
+                args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
                 defaultViewport: { width: 1280, height: 800 },
                 executablePath: executablePath,
                 //executablePath: 'mahjong-chatbot/chromium',
