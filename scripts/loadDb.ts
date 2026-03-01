@@ -96,8 +96,8 @@ const loadSampleData = async () => {
 };
 
 const scrapePage = async (url: string) => {
-    console.log(process.cwd())
-    // const executablePath = await chromium.executablePath('/opt/chromium');
+    //console.log(process.cwd()) // /vercel/path0
+    const executablePath = await chromium.executablePath('/vercel/path0/libs');
      //const executablePath = await chromium.executablePath('https://github.com/skhosla8/RAG-chatbot/tree/main/libs');
      //const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
 
@@ -106,7 +106,6 @@ const scrapePage = async (url: string) => {
 
     //process.env.LD_LIBRARY_PATH = execDir;
 
-    /*
     try {
         let webBrowser;
 
