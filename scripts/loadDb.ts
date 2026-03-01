@@ -113,8 +113,8 @@ try {
 
     const localContext = `${process.cwd()}`;
     console.log('context', localContext)
-    const chromiumPath = await chromium.executablePath("bin");
-    console.log('chromiumPath', chromiumPath)
+    //const chromiumPath = await chromium.executablePath("bin");
+    //console.log('chromiumPath', chromiumPath)
 
      //const currentDirectory = process.cwd();
 //console.log(`Current directory: ${currentDirectory}`);
@@ -127,6 +127,7 @@ try {
   console.error('Error listing localContext:', err);
 }
 
+/*
 // listing contents of chromium path - for verification only - TEST
 try {
   const files = fs.readdirSync(chromiumPath, {recursive: true});3
@@ -134,6 +135,8 @@ try {
 } catch (err) {
   console.error('Error reading chromium path:', err);
 }
+  */ 
+ 
      //const executablePath = await chromium.executablePath('https://github.com/skhosla8/RAG-chatbot/tree/main/libs');
     // const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
 
