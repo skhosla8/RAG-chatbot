@@ -97,7 +97,7 @@ const loadSampleData = async () => {
 
 const scrapePage = async (url: string) => {
     // const executablePath = await chromium.executablePath('/opt/chromium');
-     const executablePath = await chromium.executablePath('(/vercel/path0/libs');
+     const executablePath = await chromium.executablePath();
      //const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
 
     // console.log(execDir)
@@ -117,7 +117,8 @@ const scrapePage = async (url: string) => {
                 defaultViewport: { width: 1280, height: 800 },
                 executablePath: executablePath,
                 //executablePath: 'mahjong-chatbot/chromium',
-                headless: 'shell',
+                //headless: 'shell',
+                headless: 'shell'
             })
 
         } else {
