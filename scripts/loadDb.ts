@@ -116,7 +116,7 @@ const scrapePage = async (url: string) => {
                 defaultViewport: { width: 1280, height: 800 },
                 executablePath: executablePath,
                 //executablePath: 'mahjong-chatbot/chromium',
-                headless: true,
+                headless: 'shell',
             })
 
         } else {
