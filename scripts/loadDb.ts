@@ -126,8 +126,7 @@ try {
     // console.log(executablePath)
 
     //process.env.LD_LIBRARY_PATH = execDir;
- 
-    /*
+    
     try {
         let webBrowser;
 
