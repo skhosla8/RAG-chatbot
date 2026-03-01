@@ -111,14 +111,29 @@ try {
     //console.log(process.cwd()) // /vercel/path0
     //const executablePath = await chromiumPack.executablePath('/vercel/path0/libs');
 
-    const path = `${process.cwd()}/libs`;
+    const localContext = `${process.cwd()}`;
+    console.log('context', localContext)
+    const chromiumPath = await chromium.executablePath();
+    console.log('chromiumPath', chromiumPath)
 
-    console.log('path', path)
-    
-    const executablePath = await chromium.executablePath(path);
+     //const currentDirectory = process.cwd();
+//console.log(`Current directory: ${currentDirectory}`);
 
-    console.log('executablePath', executablePath)
+// listing contents of local context - for verification only - TEST
+try {
+  const files = fs.readdirSync(localContext, {recursive: true});
+  console.log('localContext contents:', files);
+} catch (err) {
+  console.error('Error listing localContext:', err);
+}
 
+// listing contents of chromium path - for verification only - TEST
+try {
+  const files = fs.readdirSync(chromiumPath, {recursive: true});3
+  console.log('chromium path contents:', files);
+} catch (err) {
+  console.error('Error reading chromium path:', err);
+}
      //const executablePath = await chromium.executablePath('https://github.com/skhosla8/RAG-chatbot/tree/main/libs');
     // const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
 
@@ -127,6 +142,7 @@ try {
 
     //process.env.LD_LIBRARY_PATH = execDir;
     
+    /*
     try {
         let webBrowser;
 
