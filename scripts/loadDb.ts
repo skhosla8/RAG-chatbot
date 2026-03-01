@@ -3,8 +3,8 @@ import { PuppeteerWebBaseLoader } from '@langchain/community/document_loaders/we
 //import { PlaywrightWebBaseLoader } from "@langchain/community/document_loaders/web/playwright";
 import * as puppeteer from 'puppeteer';
 import puppeteerCore from 'puppeteer-core';
-//import chromiumPack from '@sparticuz/chromium';
-import chromium from '@sparticuz/chromium-min';
+import chromiumPack from '@sparticuz/chromium';
+//import chromium from '@sparticuz/chromium-min';
 //import { chromium as pwChromium } from 'playwright-core';
 import path from 'path';
 import fs from 'fs';
@@ -97,6 +97,7 @@ const loadSampleData = async () => {
 };
 
 const scrapePage = async (url: string) => {
+    /*
     const currentDirectory = process.cwd();
 console.log(`Current directory: ${currentDirectory}`);
 
@@ -106,10 +107,13 @@ try {
 } catch (err) {
   console.error('Error reading directory:', err);
 }
+  */
     //console.log(process.cwd()) // /vercel/path0
-    //const executablePath = await chromium.executablePath('/vercel/path0/libs');
+    //const executablePath = await chromiumPack.executablePath('/vercel/path0/libs');
 
+    const executablePath = await chromiumPack.executablePath;
 
+    console.log('executablePath', executablePath)
 
      //const executablePath = await chromium.executablePath('https://github.com/skhosla8/RAG-chatbot/tree/main/libs');
      //const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
@@ -118,7 +122,7 @@ try {
     // console.log(executablePath)
 
     //process.env.LD_LIBRARY_PATH = execDir;
- /*
+ 
     try {
         let webBrowser;
 
@@ -127,7 +131,7 @@ try {
             // Configure puppeteer-core to use the @sparticuz/chromium-min executable
             
             webBrowser = await puppeteerCore.launch({
-                args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+                args: [...chromiumPack.args, "--hide-scrollbars", "--disable-web-security"],
                 defaultViewport: { width: 1280, height: 800 },
                 executablePath: executablePath,
                 //executablePath: 'mahjong-chatbot/chromium',
