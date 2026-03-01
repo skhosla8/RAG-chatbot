@@ -113,7 +113,7 @@ try {
 
     const localContext = `${process.cwd()}`;
     console.log('context', localContext)
-    const chromiumPath = await chromium.executablePath();
+    const chromiumPath = await chromium.executablePath("bin");
     console.log('chromiumPath', chromiumPath)
 
      //const currentDirectory = process.cwd();
