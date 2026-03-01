@@ -97,7 +97,7 @@ const loadSampleData = async () => {
 
 const scrapePage = async (url: string) => {
     // const executablePath = await chromium.executablePath('/opt/chromium');
-     const executablePath = await chromium.executablePath('https://github.com/skhosla8/RAG-chatbot/blob/main/libs/chromium.br');
+     const executablePath = await chromium.executablePath('https://github.com/skhosla8/RAG-chatbot/blob/main/libs');
      //const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
 
     // console.log(execDir)
