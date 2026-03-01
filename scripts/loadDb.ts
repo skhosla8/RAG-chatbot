@@ -96,8 +96,8 @@ const loadSampleData = async () => {
 };
 
 const scrapePage = async (url: string) => {
-     const executablePath = await chromium.executablePath('/opt/chromium');
-     //const executablePath = await chromiumPack.executablePath('https://github.com/Sparticuz/chromium/releases/download/v143.0.4/chromium-v143.0.4-pack.x64.tar');
+    // const executablePath = await chromium.executablePath('/opt/chromium');
+     const executablePath = await chromium.executablePath('https://github.com/Sparticuz/chromium/releases/chromium-v143.0.4-pack.ARCH.tar');
      //const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
 
     // console.log(execDir)
