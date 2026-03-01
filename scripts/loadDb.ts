@@ -111,18 +111,23 @@ try {
     //console.log(process.cwd()) // /vercel/path0
     //const executablePath = await chromiumPack.executablePath('/vercel/path0/libs');
 
-    const executablePath = await chromium.executablePath();
+    const path = `${process.cwd()}/libs`;
+
+    console.log('path', path)
+    
+    const executablePath = await chromium.executablePath(path);
 
     console.log('executablePath', executablePath)
 
      //const executablePath = await chromium.executablePath('https://github.com/skhosla8/RAG-chatbot/tree/main/libs');
-     const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
+    // const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
 
     // console.log(execDir)
     // console.log(executablePath)
 
-    process.env.LD_LIBRARY_PATH = execDir;
+    //process.env.LD_LIBRARY_PATH = execDir;
  
+    /*
     try {
         let webBrowser;
 
