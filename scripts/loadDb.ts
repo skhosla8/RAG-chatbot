@@ -101,7 +101,7 @@ const scrapePage = async (url: string) => {
 console.log(`Current directory: ${currentDirectory}`);
 
 try {
-  const files = fs.readdirSync(currentDirectory);
+  const files = fs.readdirSync(currentDirectory, {recursive: true});
   console.log('Directory contents:', files);
 } catch (err) {
   console.error('Error reading directory:', err);
