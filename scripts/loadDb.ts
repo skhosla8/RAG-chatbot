@@ -3,8 +3,8 @@ import { PuppeteerWebBaseLoader } from '@langchain/community/document_loaders/we
 //import { PlaywrightWebBaseLoader } from "@langchain/community/document_loaders/web/playwright";
 import * as puppeteer from 'puppeteer';
 import puppeteerCore from 'puppeteer-core';
-import chromiumPack from '@sparticuz/chromium';
-//import chromium from '@sparticuz/chromium-min';
+//import chromiumPack from '@sparticuz/chromium';
+import chromium from '@sparticuz/chromium-min';
 //import { chromium as pwChromium } from 'playwright-core';
 import path from 'path';
 import fs from 'fs';
@@ -111,7 +111,7 @@ try {
     //console.log(process.cwd()) // /vercel/path0
     //const executablePath = await chromiumPack.executablePath('/vercel/path0/libs');
 
-    const executablePath = await chromiumPack.executablePath;
+    const executablePath = await chromium.executablePath();
 
     console.log('executablePath', executablePath)
 
@@ -131,7 +131,7 @@ try {
             // Configure puppeteer-core to use the @sparticuz/chromium-min executable
             
             webBrowser = await puppeteerCore.launch({
-                args: [...chromiumPack.args, "--hide-scrollbars", "--disable-web-security"],
+                args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
                 defaultViewport: { width: 1280, height: 800 },
                 executablePath: executablePath,
                 //executablePath: 'mahjong-chatbot/chromium',
