@@ -7,6 +7,7 @@ import puppeteerCore from 'puppeteer-core';
 import chromium from '@sparticuz/chromium-min';
 //import { chromium as pwChromium } from 'playwright-core';
 import path from 'path';
+import fs from 'fs';
 
 import OpenAI from 'openai';
 
@@ -96,8 +97,20 @@ const loadSampleData = async () => {
 };
 
 const scrapePage = async (url: string) => {
+    const currentDirectory = process.cwd();
+console.log(`Current directory: ${currentDirectory}`);
+
+try {
+  const files = fs.readdirSync(currentDirectory);
+  console.log('Directory contents:', files);
+} catch (err) {
+  console.error('Error reading directory:', err);
+}
     //console.log(process.cwd()) // /vercel/path0
-    const executablePath = await chromium.executablePath('/vercel/path0/libs');
+    //const executablePath = await chromium.executablePath('/vercel/path0/libs');
+
+
+
      //const executablePath = await chromium.executablePath('https://github.com/skhosla8/RAG-chatbot/tree/main/libs');
      //const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
 
@@ -105,7 +118,7 @@ const scrapePage = async (url: string) => {
     // console.log(executablePath)
 
     //process.env.LD_LIBRARY_PATH = execDir;
-
+ /*
     try {
         let webBrowser;
 
