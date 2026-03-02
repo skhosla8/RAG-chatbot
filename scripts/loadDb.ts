@@ -128,6 +128,28 @@ try {
   console.error('Error listing localContext:', err);
 }
 
+let filename1 = 'vercel.json';
+
+fs.readFile(filename1, 'utf8', (err, data) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    // Print the file content to the console
+    console.log('vercel.json', data);
+});
+
+let filename2 = '.vercel/project.json';
+
+fs.readFile(filename2, 'utf8', (err, data) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    // Print the file content to the console
+    console.log('.vercel/project.json', data);
+});
+
 /*
 // listing contents of chromium path - for verification only - TEST
 try {
@@ -137,8 +159,9 @@ try {
   console.error('Error reading chromium path:', err);
 }
   */ 
- 
+
      const executablePath = await chromium.executablePath('https://us-east-2.console.aws.amazon.com/s3/buckets/mahjong-chatbot?region=us-east-2&tab=objects');
+
     // const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
 
     // console.log(execDir)
