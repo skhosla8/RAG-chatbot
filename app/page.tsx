@@ -7,7 +7,7 @@ import userMessageIcon from './assets/contacts.png';
 import submitIcon from './assets/upload.png';
 import { useChat } from '@ai-sdk/react';
 import { useState } from 'react';
-import bubbleStyles from './bubble.module.css';
+import styles from './bubble.module.css';
 import { ThreeDots } from 'react-loader-spinner';
 
 export default function Home() {
@@ -77,7 +77,7 @@ export default function Home() {
                 {/* @ts-ignore */}
                 <div className="text-sm z-100 ml-2 text-black font-medium">{message.metadata?.createdAt}</div>
                 {/* @ts-ignore */}
-                <div className={`${message.role === 'user' ? `bg-orange-100 ${bubbleStyles.sent}` : `bg-white ${bubbleStyles.received}`} flex flex-row ${message.parts[0 || 1]?.text?.length > 20 ? 'items-start' : 'items-center'} z-100 p-3 rounded-xl max-w-96 min-w-fit ${bubbleStyles.shared}`}>
+                <div className={`${message.role === 'user' ? `bg-orange-100 ${styles.sent}` : `bg-white ${styles.received}`} flex flex-row ${message.parts[0 || 1]?.text?.length > 20 ? 'items-start' : 'items-center'} z-100 p-3 rounded-xl max-w-96 min-w-fit ${styles.shared}`}>
                   {message.role === 'user' ?
                     <Image className="opacity-100 z-100 mr-1" src={userMessageIcon} alt="user-message-icon" width={35} height={35} /> :
                     <Image className="opacity-100 z-100 mr-2" src={aiMessageIcon} alt="ai-message-icon" width={30} height={30} />

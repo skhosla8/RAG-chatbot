@@ -111,14 +111,15 @@ try {
     //console.log(process.cwd()) // /vercel/path0
     //const executablePath = await chromiumPack.executablePath('/vercel/path0/libs');
 
-    const localContext = `${process.cwd()}`;
-    console.log('context', localContext)
+   // const localContext = `${process.cwd()}`;
+   // console.log('context', localContext)
     //const chromiumPath = await chromium.executablePath("bin");
     //console.log('chromiumPath', chromiumPath)
 
      //const currentDirectory = process.cwd();
 //console.log(`Current directory: ${currentDirectory}`);
 
+/*
 // listing contents of local context - for verification only - TEST
 try {
   const files = fs.readdirSync(localContext, {recursive: true});
@@ -137,7 +138,7 @@ try {
 }
   */ 
  
-     //const executablePath = await chromium.executablePath('https://github.com/skhosla8/RAG-chatbot/tree/main/libs');
+     const executablePath = await chromium.executablePath('https://us-east-2.console.aws.amazon.com/s3/buckets/mahjong-chatbot?region=us-east-2&tab=objects');
     // const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
 
     // console.log(execDir)
@@ -145,7 +146,6 @@ try {
 
     //process.env.LD_LIBRARY_PATH = execDir;
     
-    /*
     try {
         let webBrowser;
 
