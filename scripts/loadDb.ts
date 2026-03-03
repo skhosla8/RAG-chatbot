@@ -161,7 +161,7 @@ try {
 }
   */ 
 
-     const executablePath = await chromium.executablePath('https://us-east-2.console.aws.amazon.com/s3/buckets/mahjong-chatbot?region=us-east-2&tab=objects');
+     const executablePath = await chromium.executablePath('https://mahjong-chatbot.s3.us-east-2.amazonaws.com/chromium.br');
 
     // const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
 
