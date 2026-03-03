@@ -14,6 +14,7 @@ import OpenAI from 'openai';
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 
 import 'dotenv/config';
+import { ppid } from 'process';
 
 export const dynamic = 'force-dynamic';
 
@@ -168,7 +169,7 @@ try {
     // console.log(executablePath)
 
     //process.env.LD_LIBRARY_PATH = execDir;
-    
+
     try {
         let webBrowser;
 
