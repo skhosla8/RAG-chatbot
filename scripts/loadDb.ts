@@ -2,7 +2,7 @@ import { DataAPIClient } from '@datastax/astra-db-ts';
 import { PuppeteerWebBaseLoader } from '@langchain/community/document_loaders/web/puppeteer';
 //import { PlaywrightWebBaseLoader } from "@langchain/community/document_loaders/web/playwright";
 import * as puppeteer from 'puppeteer';
-import puppeteerCore from 'puppeteer-core';
+//import puppeteerCore from 'puppeteer-core';
 //import chromiumPack from '@sparticuz/chromium';
 import chromium from '@sparticuz/chromium-min';
 //import { chromium as pwChromium } from 'playwright-core';
@@ -179,7 +179,7 @@ try {
         if (NEXT_PUBLIC_VERCEL_ENV === 'production') {
             // Configure puppeteer-core to use the @sparticuz/chromium-min executable
             
-            webBrowser = await puppeteerCore.launch({
+            webBrowser = await puppeteer.launch({
                 args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
                 defaultViewport: { width: 1280, height: 800 },
                 executablePath: executablePath,
