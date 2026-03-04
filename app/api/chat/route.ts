@@ -6,9 +6,9 @@ import { DataAPIClient } from "@datastax/astra-db-ts";
 import { NextResponse } from 'next/server';
 import { unstable_noStore as noStore } from 'next/cache';
 
-export const dynamic = 'force-dynamic';
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 export const maxDuration = 300;
+export const dynamic = 'force-dynamic';
 
 noStore();
 
