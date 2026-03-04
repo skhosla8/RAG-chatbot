@@ -70,7 +70,7 @@ export async function POST(req: Request) {
             messages: await convertToModelMessages(messages)
         });
 
-        return response.toUIMessageStreamResponse({
+         const result = response.toUIMessageStreamResponse({
             headers: {
                 'Transfer-Encoding': 'chunked',
                 Connection: 'keep-alive',
@@ -81,6 +81,8 @@ export async function POST(req: Request) {
                 };
             }
         });
+
+        return NextResponse.json({ result }, { status: 200});
 
     } catch (error) {
         console.log(error);
