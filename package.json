@@ -17,7 +17,7 @@
     "@langchain/community": "^1.1.18",
     "@langchain/core": "^1.1.18",
     "@langchain/textsplitters": "^1.0.1",
-    "@sparticuz/chromium": "^106.0.2",
+    "@sparticuz/chromium": "^131.0.0",
     "@sparticuz/chromium-min": "^143.0.4",
     "@tailwindcss/postcss": "^4.2.1",
     "@types/node": "^25.3.3",
