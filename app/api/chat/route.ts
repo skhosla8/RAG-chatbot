@@ -7,7 +7,7 @@ import { NextResponse } from 'next/server';
 import { unstable_noStore as noStore } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 noStore();
 
@@ -82,7 +82,8 @@ export async function POST(req: Request) {
             }
         });
 
-        return NextResponse.json({ result }, { status: 200});
+       // return NextResponse.json({ result }, { status: 200});
+       return result;
 
     } catch (error) {
         console.log(error);
