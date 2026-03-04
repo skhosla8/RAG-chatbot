@@ -2,7 +2,7 @@ import { DataAPIClient } from '@datastax/astra-db-ts';
 import { PuppeteerWebBaseLoader } from '@langchain/community/document_loaders/web/puppeteer';
 //import { PlaywrightWebBaseLoader } from "@langchain/community/document_loaders/web/playwright";
 import * as puppeteer from 'puppeteer';
-//import puppeteerCore from 'puppeteer-core';
+import puppeteerCore from 'puppeteer-core';
 //import chromiumPack from '@sparticuz/chromium';
 import chromium from '@sparticuz/chromium-min';
 //import { chromium as pwChromium } from 'playwright-core';
@@ -37,7 +37,7 @@ const {
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
 const mahjongData = [
-    "https://www.plainfieldlibrary.net/wp-content/uploads/2020/03/American-Mahjongg.pdf",
+    //"https://www.plainfieldlibrary.net/wp-content/uploads/2020/03/American-Mahjongg.pdf",
     "https://en.wikipedia.org/wiki/Mahjong#History",
     "https://www.google.com/search?q=mahjong+2025&sca_esv=af25f58d0793347a&biw=1728&bih=888&aic=0&sxsrf=ANbL-n6HUseYKXEdStNIg4sgFOnohXexBA%3A1769989063627&ei=x-N_acuGJvrJkPIP-8qSiQU&ved=0ahUKEwiLhpOLu7mSAxX6JEQIHXulJFE4ChDh1QMIEw&uact=5&oq=mahjong+2025&gs_lp=Egxnd3Mtd2l6LXNlcnAiDG1haGpvbmcgMjAyNTIFEAAYgAQyBRAAGIAEMgUQABiABDIKEAAYgAQYFBiHAjIFEAAYgAQyBRAAGIAEMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQABiABEjiBVCRA1jyBHABeAGQAQCYAWugAbkBqgEDMS4xuAEDyAEA-AEBmAIDoALCAcICDRAjGPAFGLADGCcYngbCAgcQIxiwAxgnwgIKEAAYsAMY1gQYR8ICChAjGIAEGCcYigXCAgoQIxjwBRgnGJ4GwgIEECMYJ8ICChAAGIAEGEMYigXCAgsQABiABBiRAhiKBZgDAIgGAZAGCpIHAzIuMaAHnxGyBwMxLjG4B74BwgcDMC4zyAcGgAgA&sclient=gws-wiz-serp",
     "https://www.scribd.com/document/250898340/Mahjong-Hands-Lisit"
@@ -172,7 +172,6 @@ try {
 
     process.env.LD_LIBRARY_PATH = execDir;
 
-    /*
     try {
         let webBrowser;
 
@@ -180,7 +179,7 @@ try {
         if (NEXT_PUBLIC_VERCEL_ENV === 'production') {
             // Configure puppeteer-core to use the @sparticuz/chromium-min executable
             
-            webBrowser = await puppeteer.launch({
+            webBrowser = await puppeteerCore.launch({
                 args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
                 defaultViewport: { width: 1280, height: 800 },
                 executablePath: executablePath,
