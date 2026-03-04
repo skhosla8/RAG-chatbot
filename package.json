@@ -20,9 +20,14 @@
     "@sparticuz/chromium": "^106.0.2",
     "@sparticuz/chromium-min": "^143.0.4",
     "@tailwindcss/postcss": "^4.2.1",
+    "@types/node": "^25.3.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "ai": "^6.0.77",
     "chrome-aws-lambda": "^10.1.0",
     "dotenv": "^16.4.5",
+    "eslint": "^10.0.2",
+    "eslint-config-next": "^16.1.6",
     "langchain": "^0.1.36",
     "next": "16.1.6",
     "node": "^24.0.0",
@@ -38,12 +43,5 @@
     "tailwindcss": "^4.2.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.1.6"
   }
 }
