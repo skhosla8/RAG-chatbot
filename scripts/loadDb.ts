@@ -170,7 +170,7 @@ try {
     // console.log(execDir)
     // console.log(executablePath)
 
-    //process.env.LD_LIBRARY_PATH = execDir;
+    process.env.LD_LIBRARY_PATH = '/tmp/chromium';
 
     try {
         let webBrowser;
