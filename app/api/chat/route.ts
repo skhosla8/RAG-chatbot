@@ -56,10 +56,25 @@ export async function POST(req: Request) {
 
         docContext = JSON.stringify(docsMap);
 
-        const response = streamText({
+        /*const response = streamText({
             model: openai('gpt-3.5-turbo'),
             system: ` You  are an AI assistant who knows everything about Mahjong. Use the below context to augment what you know about the Majhong game. The context will provide you with recent data from wikipedia and a few other websites.
             If the context doesn't include the information you need answer based on your existing knowledge and don't mention the source of your information or what the context does or doesn't include. Format responses using markdown where applicable and don't return images. 
+            ----------------------------------
+            START CONTEXT
+            ${docContext}
+            END CONTEXT
+            ----------------------------------
+            QUESTION: ${latestMessage}
+            ---------------------------------
+            `,
+            messages: await convertToModelMessages(messages)
+        });
+        */
+       const response = streamText({
+            model: openai('gpt-3.5-turbo'),
+            system: ` You  are an AI assistant who knows everything about Mahjong. Use the below context to augment what you know about the Majhong game. The context will provide you with recent data from wikipedia and a few other websites.
+            Only answer using the context below otherwise respond with 'I don't know'. Format responses using markdown where applicable and don't return images. 
             ----------------------------------
             START CONTEXT
             ${docContext}
