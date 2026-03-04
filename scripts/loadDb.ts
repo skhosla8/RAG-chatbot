@@ -165,13 +165,14 @@ try {
 
     // const executablePath = await chromium.executablePath('https://mahjong-chatbot.s3.us-east-2.amazonaws.com/chromium-v143.0.4-pack.x64+(6).tar');
 
-    // const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
+     const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
 
-    // console.log(execDir)
+     console.log('execDir', execDir)
     // console.log(executablePath)
 
-   // process.env.LD_LIBRARY_PATH = '/tmp/chromium';
+    process.env.LD_LIBRARY_PATH = execDir;
 
+    /*
     try {
         let webBrowser;
 
