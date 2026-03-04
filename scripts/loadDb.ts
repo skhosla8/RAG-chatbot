@@ -167,7 +167,7 @@ try {
 
      const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
 
-     console.log('execDir', execDir)
+     //console.log('execDir', execDir)
     // console.log(executablePath)
 
     process.env.LD_LIBRARY_PATH = execDir;
