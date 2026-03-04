@@ -160,7 +160,7 @@ try {
   console.error('Error reading chromium path:', err);
 }
   */ 
-     const executablePath = await chromium.executablePath('https://mahjong-chatbot.s3.us-east-2.amazonaws.com/file.tar');
+     const executablePath = await chromium.executablePath('https://us-east-2.console.aws.amazon.com/s3/buckets/mahjong-chatbot?region=us-east-2&tab=objects');
 
 
     // const executablePath = await chromium.executablePath('https://mahjong-chatbot.s3.us-east-2.amazonaws.com/chromium-v143.0.4-pack.x64+(6).tar');
