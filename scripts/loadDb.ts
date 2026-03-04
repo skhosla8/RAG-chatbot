@@ -1,13 +1,13 @@
 import { DataAPIClient } from '@datastax/astra-db-ts';
-import { PuppeteerWebBaseLoader } from '@langchain/community/document_loaders/web/puppeteer';
-//import { PlaywrightWebBaseLoader } from "@langchain/community/document_loaders/web/playwright";
-import * as puppeteer from 'puppeteer';
-import puppeteerCore from 'puppeteer-core';
+//import { PuppeteerWebBaseLoader } from '@langchain/community/document_loaders/web/puppeteer';
+import { PlaywrightWebBaseLoader } from "@langchain/community/document_loaders/web/playwright";
+//import * as puppeteer from 'puppeteer';
+//import puppeteerCore from 'puppeteer-core';
 import chromiumPack from '@sparticuz/chromium';
 //import chromium from '@sparticuz/chromium-min';
-//import { chromium as pwChromium } from 'playwright-core';
+import { chromium as pwChromium } from 'playwright-core';
 import path from 'path';
-import fs from 'fs';
+//mport fs from 'fs';
 
 import OpenAI from 'openai';
 
@@ -180,23 +180,23 @@ try {
         if (NEXT_PUBLIC_VERCEL_ENV === 'production') {
             // Configure puppeteer-core to use the @sparticuz/chromium-min executable
             
-            webBrowser = await puppeteerCore.launch({
+            webBrowser = await pwChromium.launch({
                 args: [...chromiumPack.args, "--hide-scrollbars", "--disable-web-security"],
-                defaultViewport: { width: 1280, height: 800 },
+                //defaultViewport: { width: 1280, height: 800 },
                 executablePath: executablePath,
                 //executablePath: 'mahjong-chatbot/chromium',
                 //headless: 'shell',
-                headless: 'shell'
+                headless: true
             })
 
         } else {
             // Use the standard puppeteer package for local development
-            webBrowser = await puppeteer.launch({
-                headless: true,
+            webBrowser = await pwChromium.launch({
+                headless: true
             });
         }
     
-        const loader = new PuppeteerWebBaseLoader(url, {
+        const loader = new PlaywrightWebBaseLoader(url, {
             launchOptions: {
                 headless: true,
                // browser: browser
