@@ -213,7 +213,7 @@ try {
         });
 
         const result = await loader.scrape();
-        //console.log(result)
+        console.log(result)
         return result?.replace(/<[^>]*>?/gm, '');
        //return result
         //return Array.from(result);
