@@ -1,25 +1,15 @@
 import { DataAPIClient } from '@datastax/astra-db-ts';
-//import { PuppeteerWebBaseLoader } from '@langchain/community/document_loaders/web/puppeteer';
 import { PlaywrightWebBaseLoader } from "@langchain/community/document_loaders/web/playwright";
-//import * as puppeteer from 'puppeteer';
-//import puppeteerCore from 'puppeteer-core';
-import chromiumPack from '@sparticuz/chromium';
-//import chromium from '@sparticuz/chromium-min';
-import { chromium as pwChromium } from 'playwright-core';
-import path from 'path';
-//mport fs from 'fs';
-
-import OpenAI from 'openai';
-
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
+import chromiumPack from '@sparticuz/chromium';
+import { chromium as pwChromium } from 'playwright-core';
+import { chromium as playwright } from 'playwright';
+import OpenAI from 'openai';
+import path from 'path';
 
 import 'dotenv/config';
-import { ppid } from 'process';
 
 export const dynamic = 'force-dynamic';
-
-///Users/sonalikhosla/dev/workspace-1/mahjong-chatbot/chromium
-//mahjong-chatbot/chromium
 
 type SimilarityMetric = "dot_product" | "cosine" | "euclidean";
 
@@ -29,9 +19,7 @@ const {
     ASTRA_DB_API_ENDPOINT,
     ASTRA_DB_APPLICATION_TOKEN,
     OPENAI_API_KEY,
-    LD_LIBRARY_PATH,
     NEXT_PUBLIC_VERCEL_ENV,
-    /*NODE_ENV,*/
 } = process.env;
 
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
@@ -65,24 +53,13 @@ const createCollection = async (similarityMetric: SimilarityMetric = "dot_produc
 const loadSampleData = async () => {
     const collection = db.collection(ASTRA_DB_COLLECTION);
 
-    /*
-   const executablePath = await chromiumPack.executablePath();
-    console.log(`executablePath`, executablePath)
-    const execDir = path.dirname(executablePath);
-    console.log(`execDir`, execDir)
-
-    process.env.LD_LIBRARY_PATH = execDir;
-    */
-
     for await (const url of mahjongData) {
         const content = await scrapePage(url);
         const chunks = typeof content === 'string' ? await splitter.splitText(content) : [];
-        // const chunks = content ? await splitter.splitDocuments(content) : [];
 
         for await (const chunk of chunks) {
             const embedding = await openai.embeddings.create({
                 model: "text-embedding-3-small",
-                 //input: chunk.pageContent,
                 input: chunk,
                 encoding_format: "float"
             });
@@ -98,78 +75,8 @@ const loadSampleData = async () => {
 };
 
 const scrapePage = async (url: string) => {
-    /*
-    const currentDirectory = process.cwd();
-console.log(`Current directory: ${currentDirectory}`);
-
-try {
-  const files = fs.readdirSync(currentDirectory, {recursive: true});
-  console.log('Directory contents:', files);
-} catch (err) {
-  console.error('Error reading directory:', err);
-}
-  */
-    //console.log(process.cwd()) // /vercel/path0
-    //const executablePath = await chromiumPack.executablePath('/vercel/path0/libs');
-
-   // const localContext = `${process.cwd()}`;
-   // console.log('context', localContext)
-    //const chromiumPath = await chromium.executablePath("bin");
-    //console.log('chromiumPath', chromiumPath)
-
-     //const currentDirectory = process.cwd();
-//console.log(`Current directory: ${currentDirectory}`);
-
-/*
-// listing contents of local context - for verification only - TEST
-try {
-  const files = fs.readdirSync(localContext, {recursive: true});
-  console.log('localContext contents:', files);
-} catch (err) {
-  console.error('Error listing localContext:', err);
-}
-
-let filename1 = 'vercel.json';
-
-fs.readFile(filename1, 'utf8', (err, data) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    // Print the file content to the console
-    console.log('vercel.json', data);
-});
-
-let filename2 = '.vercel/project.json';
-
-fs.readFile(filename2, 'utf8', (err, data) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    // Print the file content to the console
-    console.log('.vercel/project.json', data);
-});
-
-/*
-// listing contents of chromium path - for verification only - TEST
-try {
-  const files = fs.readdirSync(chromiumPath, {recursive: true});3
-  console.log('chromium path contents:', files);
-} catch (err) {
-  console.error('Error reading chromium path:', err);
-}
-  */ 
-    // const executablePath = await chromiumPack.executablePath('https://mahjong-chatbot.s3.us-east-2.amazonaws.com/chromium-v143.0.4-pack.x64+(6).tar');
-
     const executablePath = await chromiumPack.executablePath();
-
-    // const executablePath = await chromium.executablePath('https://mahjong-chatbot.s3.us-east-2.amazonaws.com/chromium-v143.0.4-pack.x64+(6).tar');
-
-     const execDir = path.dirname(executablePath); // /var/folders/q1/l34cx8cd3cnctr11s2b773dm0000gn/T
-
-     //console.log('execDir', execDir)
-    // console.log(executablePath)
+    const execDir = path.dirname(executablePath);
 
     process.env.LD_LIBRARY_PATH = execDir;
 
@@ -178,28 +85,20 @@ try {
 
         // Use specific configuration for Vercel production environment
         if (NEXT_PUBLIC_VERCEL_ENV === 'production') {
-            // Configure puppeteer-core to use the @sparticuz/chromium-min executable
-            
             webBrowser = await pwChromium.launch({
                 args: [...chromiumPack.args, "--hide-scrollbars", "--disable-web-security"],
-                //defaultViewport: { width: 1280, height: 800 },
                 executablePath: executablePath,
-                //executablePath: 'mahjong-chatbot/chromium',
-                //headless: 'shell',
                 headless: true
             })
-
         } else {
-            // Use the standard puppeteer package for local development
-            webBrowser = await pwChromium.launch({
+            webBrowser = await playwright.launch({
                 headless: true
             });
         }
-    
+
         const loader = new PlaywrightWebBaseLoader(url, {
             launchOptions: {
                 headless: true,
-               // browser: browser
             },
             gotoOptions: {
                 waitUntil: "domcontentloaded"
@@ -213,51 +112,11 @@ try {
         });
 
         const result = await loader.scrape();
-        console.log(result)
         return result?.replace(/<[^>]*>?/gm, '');
-       //return result
-        //return Array.from(result);
-
     } catch (error) {
         console.error(error);
         return error;
     }
-
-    // const executablePath = await chromiumPack.executablePath();
-    //const execDir = path.dirname(executablePath);
-
-    //process.env.LD_LIBRARY_PATH = execDir;
-
-    /*
-   let webBrowser = await pwChromium.launch({
-       args: chromiumPack.args,
-       headless: true,
-       executablePath: executablePath
-   });
-
-   let webPage = await webBrowser.newPage();
-
-   const loader = new PlaywrightWebBaseLoader(url, {
-       launchOptions: {
-           headless: true,
-       },
-       gotoOptions: {
-           waitUntil: "domcontentloaded"
-       },
-       evaluate: async (page = webPage, browser = webBrowser) => {
-           //await page.waitForResponse(url);
-
-           const result = await page.evaluate(() => document.body.innerHTML);
-
-           await browser.close();
-           return result;
-       }
-   });
-   */
-
-    // const result = await loader.load();
-    // return result?.replace(/<[^>]*>?/gm, '');
-    // return result;
 };
 
 createCollection().then(() => loadSampleData());
