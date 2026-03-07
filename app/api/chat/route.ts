@@ -70,16 +70,18 @@ export async function POST(req: Request) {
             `,
             messages: await convertToModelMessages(messages)
         });
-       
+
         const result = response.toUIMessageStreamResponse({
             headers: {
                 'Transfer-Encoding': 'chunked',
                 Connection: 'keep-alive',
             },
-            messageMetadata(options) {
-                return {
-                    createdAt: new Date().toLocaleTimeString()
-                };
+            messageMetadata({ part }) {
+                if (part.type === 'start') {
+                    return {
+                        createdAt: new Date().toLocaleTimeString()
+                    };
+                }
             }
         });
 
