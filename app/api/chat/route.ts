@@ -79,7 +79,7 @@ export async function POST(req: Request) {
             messageMetadata({ part }) {
                 if (part.type === 'start') {
                     return {
-                        createdAt: new Date().toLocaleTimeString()
+                        createdAt: new Date().toLocaleTimeString("en-US")
                     };
                 }
             }
