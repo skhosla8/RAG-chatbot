@@ -41,7 +41,9 @@ export default function Home() {
   const handleSuggestionPrompt = async (suggestion: string) => {
     try {
       if (suggestion.trim()) {
-        await sendMessage({ text: suggestion, metadata: { createdAt: new Date().toLocaleTimeString() } });
+        await sendMessage({ text: suggestion, metadata: { createdAt: new Date().toLocaleTimeString("en-US", {
+           timeZone: 'America/Chicago'
+        }) } });
       }
     } catch (error) {
       console.log(error);
