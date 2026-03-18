@@ -79,7 +79,9 @@ export async function POST(req: Request) {
             messageMetadata({ part }) {
                 if (part.type === 'start') {
                     return {
-                        createdAt: new Date().toLocaleTimeString("en-US")
+                        createdAt: new Date().toLocaleTimeString("en-US", {
+                            timeZone: 'America/Chicago'
+                        })
                     };
                 }
             }
