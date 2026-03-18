@@ -80,7 +80,9 @@ export async function POST(req: Request) {
                 if (part.type === 'start') {
                     return {
                         createdAt: new Date().toLocaleTimeString("en-US", {
-                            timeZone: 'America/Chicago'
+                            timeZone: 'America/Chicago',
+                            hour: '2-digit',
+                            minute: '2-digit'
                         })
                     };
                 }
