@@ -1,12 +1,15 @@
 
 .shared {
     position: relative;
+    isolation: isolate;
     /* Setup a relative container for our psuedo elements */
-    max-width: 455px;
+    max-width: min(455px, 100%);
+    min-width: 0;
+    flex-shrink: 0;
     margin-bottom: 15px;
-    padding: 10px 20px;
+    padding: 6px 14px;
     line-height: 24px;
-    word-wrap: break-word;
+    overflow-wrap: anywhere;
     /* Make sure the text wraps to multiple lines if long */
     border-radius: 30px;
 
@@ -22,6 +25,7 @@
     &:before,
     &:after {
         position: absolute;
+        z-index: -1;
         bottom: -5px;
         height: 30px;
         /* height of our bubble "tail" - should match the border-radius above */
@@ -43,13 +47,14 @@
 
     &:after {
         position: absolute;
-        right: -26px;
+        right: 0;
         border-bottom-left-radius: 10px;
         background-color: oklch(70.8% 0 0 / 0);
     }
 }
 
 .received {
+    padding: 10px 20px;
     align-self: flex-start;
     color: black;
     background: #fff;
@@ -61,8 +66,19 @@
     }
 
     &:after {
-        left: -26px;
+        left: 0;
         border-bottom-right-radius: 10px;
         background-color: oklch(70.8% 0 0 / 0);
+    }
+}
+
+@media (max-width: 600px) {
+    .shared {
+        padding: 6px 8px;
+        border-radius: 24px;
+    }
+
+    .received {
+        padding: 10px 12px;
     }
 }
